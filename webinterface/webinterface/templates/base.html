@@ -1,0 +1,141 @@
+<div class="taskbar light">
+    <div class="logo">
+      <img class="light-logo" src="{% static 'img/light-logo.png' %}" alt="Light Mode Logo">
+      <img class="dark-logo" src="{% static 'img/dark-logo.png' %}" alt="Dark Mode Logo">
+    </div>
+    <div class="company">{{ company_name }}</div>
+    <div class="user">
+      <div class="dropdown-toggle">
+        <img src="{% static 'img/user.png' %}" alt="User Avatar">
+        <div class="user-info">
+          <div class="name">{{ user_name }}</div>
+          <div class="role">{{ user_role }}</div>
+        </div>
+        <span class="arrow"></span>
+      </div>
+      <div class="dropdown">
+        <div class="dropdown-menu">
+          <a href="{% url 'logout' %}">Logout</a>
+          <a href="{% url 'settings' %}">Settings</a>
+        </div>
+      </div>
+    </div>
+    <div class="switch">
+      <button class="switch-btn"></button>
+    </div>
+  </div>
+
+<style>
+    .taskbar {
+  background-color: #333;
+  color: #fff;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 30px;
+}
+
+.company-name {
+  font-size: 18px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-info {
+  margin-right: 10px;
+}
+
+.user-name {
+  font-size: 16px;
+}
+
+.user-role {
+  font-size: 14px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 1;
+  padding: 10px;
+  display: none;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 5px 0;
+  color: #333;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+</style>
+
+{% block javascript %}
+<script>
+  // Dark/Light mode switch
+  const taskbar = document.querySelector('.taskbar');
+  const switchBtn = document.querySelector('.switch-btn');
+
+  switchBtn.addEventListener('click', () => {
+    taskbar.classList.toggle('dark');
+  });
+
+  // Dropdown menu
+  const userDropdown = document.querySelector('.dropdown');
+  const dropdownToggle = document.querySelector('.dropdown-toggle');
+
+  dropdownToggle.addEventListener('click', () => {
+    userDropdown.classList.toggle('show');
+  });
+
+  // Hide dropdown menu on click outside
+  window.addEventListener('click', (event) => {
+    if (!event.target.matches('.dropdown-toggle') && !event.target.matches('.dropdown-menu a')) {
+      userDropdown.classList.remove('show');
+    }
+  });
+</script>
+{% endblock %}
+
